@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>芝士的博客 || Linux指令总结</title>
+    <meta name="author" content="戴 理">
+    <meta name="description" content="点击顶部archives速览所有笔记哦~ ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/张伟.jpeg">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/maiden-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">芝士的博客</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="filled" />
+            </span>
+            <span>home</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="folder" theme="filled" />
+            </span>
+            <span>archives</span>
+        </a>
+        
+        <a href="/categories/Java">
+            <span>
+                <a-icon type="book" theme="filled" />
+            </span>
+            <span>categories</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>芝士的博客</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">home</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="folder" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">archives</div>
+                </div>
+            </a>
+            
+            <a href="/categories/Java">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="book" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">categories</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>Linux指令总结 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2024/4/15
+        </span>
+
+        
+        <span class="category">
+            <a href="/categories/计算机基础">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" />
+                </span>
+                计算机基础
+            </a>
+        </span>
+        
+
+        
+    </div>
+
+    <div class="content" v-pre>
+        <h3 id="1-文件操作命令"><a href="#1-文件操作命令" class="headerlink" title="1.文件操作命令"></a>1.文件操作命令</h3><p>pwd：显示当前所在目录<br>ls：查看目录下的文件。常用的是ll。<br>mkdir：创建目录<br>cd：切换当前目录<br>mv：移动文件或目录<br>cp：复制文件或目录<br>rm：删除文件或目录<br>zip：压缩文件<br>unzip：解压文件</p>
+<h3 id="2-系统信息命令"><a href="#2-系统信息命令" class="headerlink" title="2.系统信息命令"></a>2.系统信息命令</h3><p>后端开发重点，可使用这些命令进行异常分析<br>top：查看所有进程（实时）（类似任务管理器）</p>
+<ul>
+<li>top -p 123：查看ID为123的进程</li>
+<li>top -H -p 123：查看ID为123的进程下的所有线程</li>
+</ul>
+<p>ps：查看所有进程（快照）</p>
+<ul>
+<li>ps -p 123：查看ID为123的进程</li>
+<li>ps -T -p 123：查看ID为123的进程下的所有线程</li>
+</ul>
+<p>jps：查看所有Java进程</p>
+<ul>
+<li>jstack 123：查看ID为123的Java进程下的所有线程</li>
+</ul>
+<p>kill：杀死进程<br>free：查看内存占用情况<br>df：查看磁盘占用情况<br>ifconfig：查看网络接口信息<br>netstat：查看网络状态信息如TCP</p>
+<h3 id="3-文件查看命令"><a href="#3-文件查看命令" class="headerlink" title="3.文件查看命令"></a>3.文件查看命令</h3><p>后端开发重点，可使用这些命令快速定位项目日志中的异常信息<br>cat：查看文件内容<br>head：查看文件开头内容<br>tail：查看文件末尾内容<br>grep、sed、awk 三剑客：灵活查找和处理文件内容<br>javac：编译代码<br>java：运行代码</p>
+<h3 id="4-用户权限命令"><a href="#4-用户权限命令" class="headerlink" title="4.用户权限命令"></a>4.用户权限命令</h3><p>一般是给 Linux 运维（管理员）使用<br>useradd：添加用户<br>userdel：删除用户<br>chmod：修改文件或目录权限<br>chown：修改文件或目录所有者 </p>
+<h3 id="应用：排查CPU占用率高"><a href="#应用：排查CPU占用率高" class="headerlink" title="应用：排查CPU占用率高"></a>应用：排查CPU占用率高</h3><ol>
+<li>top -c：找到进程ID</li>
+<li>top -H -p 进程ID：找到线程ID</li>
+<li>优化线程代码 &#x2F; kill线程</li>
+</ol>
+
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2023 - 2024 芝士的博客
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @戴 理
+        </div>
+        <div></div>
+        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
+                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: 'hexo-theme-particle',      // The repository of store comments,
+        owner: 'korilin',
+        admin: ['korilin'],
+        language: 'en',
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
+
+</body>
+
+</html>

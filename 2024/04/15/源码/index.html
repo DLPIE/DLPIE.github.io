@@ -1,0 +1,608 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>芝士的博客 || 源码学习</title>
+    <meta name="author" content="戴 理">
+    <meta name="description" content="点击顶部archives速览所有笔记哦~ ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/张伟.jpeg">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/maiden-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">芝士的博客</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="filled" />
+            </span>
+            <span>home</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="folder" theme="filled" />
+            </span>
+            <span>archives</span>
+        </a>
+        
+        <a href="/categories/Java">
+            <span>
+                <a-icon type="book" theme="filled" />
+            </span>
+            <span>categories</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>芝士的博客</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">home</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="folder" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">archives</div>
+                </div>
+            </a>
+            
+            <a href="/categories/Java">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="book" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">categories</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>源码学习 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2024/4/15
+        </span>
+
+        
+        <span class="category">
+            <a href="/categories/Java">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" />
+                </span>
+                Java
+            </a>
+        </span>
+        
+
+        
+    </div>
+
+    <div class="content" v-pre>
+        <h1 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h1><h2 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h2><p>set&#x2F;get&#x2F;remove</p>
+<pre><code class="java">public void set(T value) &#123;
+    // 获取当前线程的ThreadLocalMap
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    // put(ThreadLocal,value)
+    if (map != null)
+        map.set(this, value);
+    else
+        createMap(t, value);
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">public T get() &#123;
+    // 获取当前线程的ThreadLocalMap
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    // 根据ThreadLocal获取value
+    if (map != null) &#123;
+        ThreadLocalMap.Entry e = map.getEntry(this);
+        if (e != null) &#123;
+            @SuppressWarnings(&quot;unchecked&quot;)
+            T result = (T)e.value;
+            return result;
+        &#125;
+    &#125;
+    return setInitialValue();
+&#125;
+</code></pre>
+<pre><code class="java">public void remove() &#123;
+    // 获取当前线程的ThreadLocalMap
+    ThreadLocalMap m = getMap(Thread.currentThread());
+    // 删除当前ThreadLocal这个key
+    if (m != null)
+        m.remove(this);
+&#125;
+</code></pre>
+<h2 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h2><p>ThreadLocalMap</p>
+<ol>
+<li>基于数组，初始容量为16，扩容阈值为2&#x2F;3，哈希冲突用开放寻址法</li>
+<li>哈希值计算：从0开始每次叠加一个固定值</li>
+<li>桶下标计算：hash%n</li>
+<li>核心方法：set&#x2F;get&#x2F;remove</li>
+</ol>
+<pre><code class="java">static class ThreadLocalMap &#123;
+    // hash值
+    private final int threadLocalHashCode = nextHashCode();
+    private static int nextHashCode() &#123;
+        return nextHashCode.getAndAdd(HASH_INCREMENT); // 叠加一个固定值
+    &#125;
+
+    // 节点（k-v，key弱引用）
+    static class Entry extends WeakReference&lt;ThreadLocal&lt;?&gt;&gt; &#123;
+        Object value;
+        Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;
+            super(k);
+            value = v;
+        &#125;
+    &#125;
+
+    // Map基于数组，没有链表!!
+    private Entry[] table;
+    
+    // 数组初始容量
+    private static final int INITIAL_CAPACITY = 16;
+
+    private int size = 0;
+
+    // 扩容阈值
+    private int threshold; 
+
+    private void setThreshold(int len) &#123;
+        threshold = len * 2 / 3;
+    &#125;
+
+    // get(k)
+    private Entry getEntry(ThreadLocal&lt;?&gt; key) &#123;
+        // 计算桶下标i
+        int i = key.threadLocalHashCode &amp; (table.length - 1);
+        Entry e = table[i];
+        // 节点存在则返回
+        if (e != null &amp;&amp; e.get() == key)
+            return e;
+        else // 不存在则开放寻址法找key，真找不到就删除value、添加key（复杂，没看懂）
+            return getEntryAfterMiss(key, i, e); 
+    &#125;
+
+    private Entry getEntryAfterMiss(ThreadLocal&lt;?&gt; key, int i, Entry e) &#123;
+        Entry[] tab = table;
+        int len = tab.length;
+
+        while (e != null) &#123; // 为什么while：开放寻址法找key
+            ThreadLocal&lt;?&gt; k = e.get();
+            if (k == key)
+                return e;
+            if (k == null)
+                expungeStaleEntry(i);
+            else
+                i = nextIndex(i, len);
+            e = tab[i];
+        &#125;
+        return null;
+    &#125;
+
+    private int expungeStaleEntry(int staleSlot) &#123;
+        Entry[] tab = table;
+        int len = tab.length;
+
+        // 真找不到就删除value、添加key
+        tab[staleSlot].value = null;
+        tab[staleSlot] = null;
+        size--;
+
+        // Rehash until we encounter null
+        Entry e;
+        int i;
+        for (i = nextIndex(staleSlot, len);
+             (e = tab[i]) != null;
+             i = nextIndex(i, len)) &#123;
+            ThreadLocal&lt;?&gt; k = e.get();
+            if (k == null) &#123;
+                e.value = null;
+                tab[i] = null;
+                size--;
+            &#125; else &#123;
+                int h = k.threadLocalHashCode &amp; (len - 1);
+                if (h != i) &#123;
+                    tab[i] = null;
+
+                    // Unlike Knuth 6.4 Algorithm R, we must scan until
+                    // null because multiple entries could have been stale.
+                    while (tab[h] != null)
+                        h = nextIndex(h, len);
+                    tab[h] = e;
+                &#125;
+            &#125;
+        &#125;
+        return i;
+    &#125;
+
+    // set(k,v)
+    private void set(ThreadLocal&lt;?&gt; key, Object value) &#123;
+        Entry[] tab = table;
+        int len = tab.length;
+        int i = key.threadLocalHashCode &amp; (len-1);
+
+        for (Entry e = tab[i];
+             e != null;
+             e = tab[i = nextIndex(i, len)]) &#123;
+            ThreadLocal&lt;?&gt; k = e.get();
+
+            if (k == key) &#123;
+                e.value = value;
+                return;
+            &#125;
+
+            if (k == null) &#123;
+                replaceStaleEntry(key, value, i);
+                return;
+            &#125;
+        &#125;
+
+        tab[i] = new Entry(key, value);
+        int sz = ++size;
+        if (!cleanSomeSlots(i, sz) &amp;&amp; sz &gt;= threshold)
+            rehash();
+    &#125;
+
+    // remove(k)
+    private void remove(ThreadLocal&lt;?&gt; key) &#123;
+        Entry[] tab = table;
+        int len = tab.length;
+        int i = key.threadLocalHashCode &amp; (len-1);
+        for (Entry e = tab[i];
+             e != null;
+             e = tab[i = nextIndex(i, len)]) &#123;
+            if (e.get() == key) &#123;
+                e.clear();
+                expungeStaleEntry(i);
+                return;
+            &#125;
+        &#125;
+    &#125;
+
+    // rehash
+    
+    // resize
+    private void resize() &#123;
+        Entry[] oldTab = table;
+        int oldLen = oldTab.length;
+        int newLen = oldLen * 2;
+        Entry[] newTab = new Entry[newLen];
+        int count = 0;
+
+        for (int j = 0; j &lt; oldLen; ++j) &#123;
+            Entry e = oldTab[j];
+            if (e != null) &#123;
+                ThreadLocal&lt;?&gt; k = e.get();
+                if (k == null) &#123;
+                    e.value = null; // Help the GC
+                &#125; else &#123;
+                    int h = k.threadLocalHashCode &amp; (newLen - 1);
+                    while (newTab[h] != null)
+                        h = nextIndex(h, newLen);
+                    newTab[h] = e;
+                    count++;
+                &#125;
+            &#125;
+        &#125;
+
+        setThreshold(newLen);
+        size = count;
+        table = newTab;
+    &#125;
+</code></pre>
+<h1 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h1><p><strong>hascode()</strong></p>
+<ul>
+<li>返回该对象的哈希码。默认情况下，该方法会根据对象的<strong>地址</strong>来计算。不同对象的hashCode()一般来说不会相同，但是同一个对象的hashCode()值肯定相同。</li>
+<li>不是对象的实际地址值，可以理解为逻辑地址值。</li>
+</ul>
+<p><strong>getClass()</strong><br>获取对象的真实类的全名称。<br><strong>toString()</strong><br>将一个对象转换成字符串返回，返回值的生成算法为：getClass().getName() + ‘@’ + Integer.toHexString(hashCode())。<br><strong>equals()</strong><br>默认比较两个对象的地址。<br><strong>clone()</strong><br>用于实现对象的复制。是protected的，是浅拷贝。必须实现Cloneable并重写clone方法才可以调用它，否则会抛异常。<br><strong>wait()</strong><br>作为锁的对象调用wait()方法，使当前线程进入阻塞状态。<br><strong>notify()</strong><br>用于唤醒在该对象上等待的某个线程。</p>
+<pre><code>public class Object &#123;
+
+    private static native void registerNatives();
+    static &#123;
+        registerNatives();
+    &#125;
+
+    public final native Class&lt;?&gt; getClass();
+
+    /**
+     * Returns a hash code value for the object. This method is
+     * supported for the benefit of hash tables such as those provided by
+     * &#123;@link java.util.HashMap&#125;.
+     * &lt;p&gt;
+     * The general contract of &#123;@code hashCode&#125; is:
+     * &lt;ul&gt;
+     * &lt;li&gt;Whenever it is invoked on the same object more than once during
+     *     an execution of a Java application, the &#123;@code hashCode&#125; method
+     *     must consistently return the same integer, provided no information
+     *     used in &#123;@code equals&#125; comparisons on the object is modified.
+     *     This integer need not remain consistent from one execution of an
+     *     application to another execution of the same application.
+     * &lt;li&gt;If two objects are equal according to the &#123;@code equals(Object)&#125;
+     *     method, then calling the &#123;@code hashCode&#125; method on each of
+     *     the two objects must produce the same integer result.
+     * &lt;li&gt;It is &lt;em&gt;not&lt;/em&gt; required that if two objects are unequal
+     *     according to the &#123;@link java.lang.Object#equals(java.lang.Object)&#125;
+     *     method, then calling the &#123;@code hashCode&#125; method on each of the
+     *     two objects must produce distinct integer results.  However, the
+     *     programmer should be aware that producing distinct integer results
+     *     for unequal objects may improve the performance of hash tables.
+     * &lt;/ul&gt;
+     * &lt;p&gt;
+     * As much as is reasonably practical, the hashCode method defined by
+     * class &#123;@code Object&#125; does return distinct integers for distinct
+     * objects. (This is typically implemented by converting the internal
+     * address of the object into an integer, but this implementation
+     * technique is not required by the
+     * Java&amp;trade; programming language.)
+     *
+     * @return  a hash code value for this object.
+     * @see     java.lang.Object#equals(java.lang.Object)
+     * @see     java.lang.System#identityHashCode
+     */
+    public native int hashCode();
+
+    public boolean equals(Object obj) &#123;
+        return (this == obj);
+    &#125;
+
+    /**
+     * Creates and returns a copy of this object.  The precise meaning
+     * of &quot;copy&quot; may depend on the class of the object. The general
+     * intent is that, for any object &#123;@code x&#125;, the expression:
+     * &lt;blockquote&gt;
+     * &lt;pre&gt;
+     * x.clone() != x&lt;/pre&gt;&lt;/blockquote&gt;
+     * will be true, and that the expression:
+     * &lt;blockquote&gt;
+     * &lt;pre&gt;
+     * x.clone().getClass() == x.getClass()&lt;/pre&gt;&lt;/blockquote&gt;
+     * will be &#123;@code true&#125;, but these are not absolute requirements.
+     * While it is typically the case that:
+     * &lt;blockquote&gt;
+     * &lt;pre&gt;
+     * x.clone().equals(x)&lt;/pre&gt;&lt;/blockquote&gt;
+     * will be &#123;@code true&#125;, this is not an absolute requirement.
+     * &lt;p&gt;
+     * By convention, the returned object should be obtained by calling
+     * &#123;@code super.clone&#125;.  If a class and all of its superclasses (except
+     * &#123;@code Object&#125;) obey this convention, it will be the case that
+     * &#123;@code x.clone().getClass() == x.getClass()&#125;.
+     * &lt;p&gt;
+     * By convention, the object returned by this method should be independent
+     * of this object (which is being cloned).  To achieve this independence,
+     * it may be necessary to modify one or more fields of the object returned
+     * by &#123;@code super.clone&#125; before returning it.  Typically, this means
+     * copying any mutable objects that comprise the internal &quot;deep structure&quot;
+     * of the object being cloned and replacing the references to these
+     * objects with references to the copies.  If a class contains only
+     * primitive fields or references to immutable objects, then it is usually
+     * the case that no fields in the object returned by &#123;@code super.clone&#125;
+     * need to be modified.
+     * &lt;p&gt;
+     * The method &#123;@code clone&#125; for class &#123;@code Object&#125; performs a
+     * specific cloning operation. First, if the class of this object does
+     * not implement the interface &#123;@code Cloneable&#125;, then a
+     * &#123;@code CloneNotSupportedException&#125; is thrown. Note that all arrays
+     * are considered to implement the interface &#123;@code Cloneable&#125; and that
+     * the return type of the &#123;@code clone&#125; method of an array type &#123;@code T[]&#125;
+     * is &#123;@code T[]&#125; where T is any reference or primitive type.
+     * Otherwise, this method creates a new instance of the class of this
+     * object and initializes all its fields with exactly the contents of
+     * the corresponding fields of this object, as if by assignment; the
+     * contents of the fields are not themselves cloned. Thus, this method
+     * performs a &quot;shallow copy&quot; of this object, not a &quot;deep copy&quot; operation.
+     * &lt;p&gt;
+     * The class &#123;@code Object&#125; does not itself implement the interface
+     * &#123;@code Cloneable&#125;, so calling the &#123;@code clone&#125; method on an object
+     * whose class is &#123;@code Object&#125; will result in throwing an
+     * exception at run time.
+     *
+     * @return     a clone of this instance.
+     * @throws  CloneNotSupportedException  if the object&#39;s class does not
+     *               support the &#123;@code Cloneable&#125; interface. Subclasses
+     *               that override the &#123;@code clone&#125; method can also
+     *               throw this exception to indicate that an instance cannot
+     *               be cloned.
+     * @see java.lang.Cloneable
+     */
+    protected native Object clone() throws CloneNotSupportedException;
+
+    public String toString() &#123;
+        return getClass().getName() + &quot;@&quot; + Integer.toHexString(hashCode());
+    &#125;
+
+    public final native void notify();
+
+    public final native void notifyAll();
+
+    public final native void wait(long timeout) throws InterruptedException;
+
+    public final void wait(long timeout, int nanos) throws InterruptedException &#123;
+        if (timeout &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;timeout value is negative&quot;);
+        &#125;
+
+        if (nanos &lt; 0 || nanos &gt; 999999) &#123;
+            throw new IllegalArgumentException(
+                                &quot;nanosecond timeout value out of range&quot;);
+        &#125;
+
+        if (nanos &gt; 0) &#123;
+            timeout++;
+        &#125;
+
+        wait(timeout);
+    &#125;
+
+    public final void wait() throws InterruptedException &#123;
+        wait(0);
+    &#125;
+
+    protected void finalize() throws Throwable &#123; &#125;
+&#125;
+</code></pre>
+
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2023 - 2024 芝士的博客
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @戴 理
+        </div>
+        <div></div>
+        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
+                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: 'hexo-theme-particle',      // The repository of store comments,
+        owner: 'korilin',
+        admin: ['korilin'],
+        language: 'en',
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
+
+</body>
+
+</html>
